@@ -7,6 +7,8 @@ import java.util.Random;
 enum Direction {
     LEFT , RIGHT , DOWN ,UP
 }
+
+
 public class Snake extends JPanel {
 
     private Color color ;
@@ -14,7 +16,6 @@ public class Snake extends JPanel {
     private int startX;
     private int startY;
 
-    private final int SPEED = Rectangle.getWidthAndHeight()[0];
 
     Direction direction ;
     Apple apple;
@@ -60,16 +61,13 @@ public class Snake extends JPanel {
         }
     }
 
-    public void restart(){
-        repaint();
-    }
+
 
     public void gameOver(){
         this.window.setVisible(true);
 
         JFrame parent = new JFrame("Game over!");
         JOptionPane.showMessageDialog(parent, "Your score: " + this.body.size());
-
 
         this.window.dispatchEvent(new WindowEvent(this.window, WindowEvent.WINDOW_CLOSING));
 
