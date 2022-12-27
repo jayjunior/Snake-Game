@@ -64,6 +64,16 @@ public class Snake extends JPanel {
         }
     }
 
+    public void gameOver(){
+        this.window.setVisible(true);
+
+        JFrame parent = new JFrame("Game over!");
+        JOptionPane.showMessageDialog(parent, "Your score: " + this.body.size());
+
+        this.window.dispatchEvent(new WindowEvent(this.window, WindowEvent.WINDOW_CLOSING));
+        System.exit(0);
+    }
+
     public void checkCollision(){
         Rectangle head = this.body.get(0);
 
@@ -72,21 +82,26 @@ public class Snake extends JPanel {
         for(int i = 1 ; i < body.size() ; i++){
             Rectangle part = this.body.get(i);
             if(head.intersects(part)){
-                this.window.setVisible(true);
-
-                JFrame parent = new JFrame("Game over!");
-                JOptionPane.showMessageDialog(parent, "Your score: " + this.body.size());
-
-                this.window.dispatchEvent(new WindowEvent(this.window, WindowEvent.WINDOW_CLOSING));
-                System.exit(0);
+                gameOver();
             }
         }
 
+        // collision between any body part and the apple
         Rectangle dummy = new Rectangle(this.apple.getCoordinates()[0],this.apple.getCoordinates()[1]);
         if(head.intersects(dummy)){
             this.eaten = true;
             this.addPart();
         }
+
+        // collision between head and game boundaries
+        if(head.getCoordinates()[0] < 0 || head.getCoordinates()[0] > Main.getBoardDimensions()[0]){
+            gameOver();
+        }
+
+        if(head.getCoordinates()[1] < 0 || head.getCoordinates()[1] > Main.getBoardDimensions()[1]){
+            gameOver();
+        }
+
     }
 
     public void moveSnake() {
@@ -124,11 +139,17 @@ public class Snake extends JPanel {
         moveSnake();
 
 
+        /**
+         * Optionally We can add horizontal and vertical grids
+         */
+
+        /*
         // draw horizontal and vertical lines
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
 
         // horizontal lines
+
 
         for(int i = 25 ; i <= Main.getBoardDimensions()[1] - Rectangle.getWidthAndHeight()[1] ; i+=Rectangle.getWidthAndHeight()[1]){
             g.drawLine(0,i,Main.getBoardDimensions()[0],i);
@@ -140,7 +161,7 @@ public class Snake extends JPanel {
             g.drawLine(i,0,i,Main.getBoardDimensions()[1]);
         }
 
-
+         */
 
         // meaning apple has been eaten create new apple and set it back
         if (this.eaten) {
@@ -149,13 +170,13 @@ public class Snake extends JPanel {
             this.eaten = false;
         }
 
-        g.setColor(Color.RED);
+        g.setColor(new Color(214,54,223));
         this.apple.draw(g);
 
 
         // draw head
         Rectangle head = body.get(0);
-        g.setColor(Color.YELLOW);
+        g.setColor(new Color(251,181,4));
         head.draw(g);
 
 
@@ -172,7 +193,7 @@ public class Snake extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(Color.GREEN);
+        setBackground(new Color(4,50,134));
         drawSnake(g);
     }
 

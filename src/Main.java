@@ -12,7 +12,9 @@ public class Main extends JFrame implements KeyListener , ActionListener {
     private Snake snake;
 
     public Main(){
-        this.snake = new Snake(Color.BLUE,this,new Apple(null));
+
+
+        this.snake = new Snake(new Color(251,181,4),this,new Apple(null));
         Timer timer = new Timer(1000, this);
         timer.start();
 
