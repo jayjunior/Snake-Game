@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 enum Direction {
@@ -40,9 +38,7 @@ public class Snake extends JPanel {
         this.body.add(next_1);
         this.body.add(next_2);
 
-        for(Rectangle rec : body){
-            System.out.println("x : " + rec.getCoordinates()[0] + " y: " + rec.getCoordinates()[1]);
-        }
+
         direction = Direction.RIGHT;
     }
 
@@ -64,13 +60,20 @@ public class Snake extends JPanel {
         }
     }
 
+    public void restart(){
+        repaint();
+    }
+
     public void gameOver(){
         this.window.setVisible(true);
 
         JFrame parent = new JFrame("Game over!");
         JOptionPane.showMessageDialog(parent, "Your score: " + this.body.size());
 
+
         this.window.dispatchEvent(new WindowEvent(this.window, WindowEvent.WINDOW_CLOSING));
+
+
         System.exit(0);
     }
 
@@ -94,11 +97,11 @@ public class Snake extends JPanel {
         }
 
         // collision between head and game boundaries
-        if(head.getCoordinates()[0] < 0 || head.getCoordinates()[0] > Main.getBoardDimensions()[0]){
+        if(head.getCoordinates()[0] < 0 || head.getCoordinates()[0] >= Main.getBoardDimensions()[0]){
             gameOver();
         }
 
-        if(head.getCoordinates()[1] < 0 || head.getCoordinates()[1] > Main.getBoardDimensions()[1]){
+        if(head.getCoordinates()[1] < 0 || head.getCoordinates()[1] >= Main.getBoardDimensions()[1]){
             gameOver();
         }
 
@@ -132,12 +135,13 @@ public class Snake extends JPanel {
         }
 
         this.body = new ArrayList<>(tmpList);
+
+
         checkCollision();
     }
 
     private void drawSnake(Graphics g) {
         moveSnake();
-
 
         /**
          * Optionally We can add horizontal and vertical grids

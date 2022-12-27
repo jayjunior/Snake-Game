@@ -36,6 +36,7 @@ public class Rectangle implements Cloneable{
     public void draw(Graphics g){
         g.drawRect(this.x,this.y,WIDTH,HEIGHT);
         g.fillRect(this.x,this.y,WIDTH,HEIGHT);
+
     }
 
     @Override
